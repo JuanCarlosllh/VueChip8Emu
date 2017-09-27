@@ -1,28 +1,29 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <h1>Chip 8 emulator</h1>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import Chip8 from '@/Chip8/Chip8'
+import MemoryAnalycer from '@/Chip8/MemoryAnalycer'
 
 export default {
   name: 'app',
+  mounted () {
+    const chip8 = new Chip8()
+    console.log(chip8)
+    const room = require('raw-loader!../static/chip8rooms/MERLIN')
+    const program = new Buffer(room)
+    chip8.loadProgram(program)
+    MemoryAnalycer.getAllUpcodes(chip8.memory)
+  },
   components: {
-    Hello
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
