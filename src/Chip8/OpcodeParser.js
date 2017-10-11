@@ -44,7 +44,6 @@ export default class OpcodeParser {
     const operation = opcode & 0xF000
     // const x = (opcode & 0x0F00) >> 8
     // const y = (opcode & 0x00F0) >> 4
-
     switch (operation) {
       case 0x000:
         switch (opcode) {

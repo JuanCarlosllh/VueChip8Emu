@@ -13,7 +13,7 @@ export default {
   mounted () {
     const chip8 = new Chip8()
     console.log(chip8)
-    const room = require('raw-loader!../static/chip8rooms/MERLIN')
+    const room = require('./lib/binary-loader!../static/chip8rooms/MAZE')
     const program = new Buffer(room)
     chip8.loadProgram(program)
     MemoryAnalycer.getAllUpcodes(chip8.memory)

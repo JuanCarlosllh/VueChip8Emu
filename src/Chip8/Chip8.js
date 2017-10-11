@@ -10,7 +10,7 @@ class chip8 {
     this.pc = 0x200
 
     // Memory
-    this.memory = new Array(4096)
+    this.memory = new Uint8Array(4096)
 
     // Stack
     this.stack = new Array(16)
@@ -19,7 +19,7 @@ class chip8 {
     this.sp = 0
 
     // "V" ad "I" registers
-    this.v = new Array(16)
+    this.v = new Uint8Array(16)
     this.i = 0
 
     // Timers
