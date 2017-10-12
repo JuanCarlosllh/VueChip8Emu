@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <h1>Chip 8 emulator</h1>
+    <canvas ref="display" class="display"></canvas>
   </div>
 </template>
 
@@ -16,14 +17,22 @@ export default {
     const room = require('./lib/binary-loader!../static/chip8rooms/MAZE')
     const program = new Buffer(room)
     chip8.loadProgram(program)
+    chip8.setupDisplat(this.$refs.display)
     MemoryAnalycer.getAllUpcodes(chip8.memory)
+
+    chip8.step()
   },
   components: {
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
+
+  .display {
+    width: 640px;
+    height: 320px;
+  }
 }
 </style>

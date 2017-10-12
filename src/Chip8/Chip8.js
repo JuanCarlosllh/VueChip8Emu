@@ -1,4 +1,6 @@
-import ConvertBase from './baseConverter'
+// import ConvertBase from './baseConverter'
+import OpcodeParse from './OpcodeParser'
+import Chip8Display from './Chip8Display'
 
 class chip8 {
   constructor () {
@@ -27,6 +29,11 @@ class chip8 {
     this.soundTimer = 0
   }
 
+  setupDisplat (canvas) {
+    // Display
+    this.display = new Chip8Display(canvas)
+  }
+
   // Must be a Uint8Array
   loadProgram (program) {
     console.log(program)
@@ -44,22 +51,21 @@ class chip8 {
     const opcode = this.memory[this.pc] << 8 | this.memory[this.pc + 1]
     this.executeOpcode(opcode)
     this.pc += 2
+    this.display.draw()
   }
 
   executeOpcode (opcode) {
-    const instruction = opcode & 0xF000 // first byte
-    const x = (opcode & 0x0F00) >> 8
-    const y = (opcode & 0x00F0) >> 4
+    const parsedOpcode = OpcodeParse.parse(opcode)
 
-    console.log({
-      opcode: ConvertBase.dec2bin(opcode),
-      instruction: ConvertBase.dec2bin(instruction),
-      x: ConvertBase.dec2bin(x),
-      y: ConvertBase.dec2bin(y)
-    })
-    // console.log(ConvertBase.dec2bin(opcode))
-    // console.log(instruction)
-    // console.log(ConvertBase.dec2hex(instruction))
+    console.log('EXECUTE OPCODE')
+    console.log(parsedOpcode)
+    parsedOpcode.execute(this)
+    // console.log({
+    //   opcode: ConvertBase.dec2bin(opcode),
+    //   instruction: ConvertBase.dec2bin(instruction),
+    //   x: ConvertBase.dec2bin(x),
+    //   y: ConvertBase.dec2bin(y)
+    // })
   }
 }
 
