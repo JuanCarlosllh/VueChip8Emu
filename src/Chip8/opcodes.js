@@ -9,7 +9,7 @@ const opcodes = {
     instruction: 'CLS',
     description: 'Clear the display.',
     execute: (chip8) => {
-      console.error(`00E0 Not implemented`)
+      chip8.display.reset()
     }
   },
   '00EE': {

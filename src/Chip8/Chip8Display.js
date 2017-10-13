@@ -27,8 +27,8 @@ export default class Chip8Display {
     this.context.closePath()
 
     // Draw memory
-    this.memory[0][0] = true
-    this.memory[0][10] = true
+    this.memory[0][0] = 1
+    this.memory[0][10] = 1
     this.context.beginPath()
     this.context.fillStyle = this.foregroundColor
     for (let x = 0; x < 0x40; x++) {
@@ -47,11 +47,9 @@ export default class Chip8Display {
     for (let x = 0; x < 0x40; x++) {
       this.memory[x] = []
       for (let y = 0; y < 0x20; y++) {
-        this.memory[x][y] = false
+        this.memory[x][y] = 0
       }
     }
-
-    console.log(this.memory)
   }
 
   drawPixel (x, y) {

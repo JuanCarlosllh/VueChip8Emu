@@ -1,4 +1,4 @@
-// import ConvertBase from './baseConverter'
+import ConvertBase from './baseConverter'
 import OpcodeParse from './OpcodeParser'
 import Chip8Display from './Chip8Display'
 
@@ -27,6 +27,10 @@ class chip8 {
     // Timers
     this.delayTimer = 0
     this.soundTimer = 0
+
+    // Misc chip8 interpreter values
+    this.paused = false
+    this.lastInstruction = null
   }
 
   setupDisplat (canvas) {
@@ -48,9 +52,14 @@ class chip8 {
   }
 
   step () {
-    const opcode = this.memory[this.pc] << 8 | this.memory[this.pc + 1]
-    this.executeOpcode(opcode)
-    this.pc += 2
+    if (!this.paused) {
+      const opcode = this.memory[this.pc] << 8 | this.memory[this.pc + 1]
+      this.executeOpcode(opcode)
+
+      // Timers
+      if (this.delayTimer > 0) this.delayTimer -= 1
+      if (this.soundTimer > 0) this.soundTimer -= 1
+    }
     this.display.draw()
   }
 
@@ -60,12 +69,10 @@ class chip8 {
     console.log('EXECUTE OPCODE')
     console.log(parsedOpcode)
     parsedOpcode.execute(this)
-    // console.log({
-    //   opcode: ConvertBase.dec2bin(opcode),
-    //   instruction: ConvertBase.dec2bin(instruction),
-    //   x: ConvertBase.dec2bin(x),
-    //   y: ConvertBase.dec2bin(y)
-    // })
+    this.pc += 2
+
+    this.lastOpcode = parsedOpcode
+    this.lastOpcode.value = ConvertBase.dec2hex(opcode)
   }
 }
 
